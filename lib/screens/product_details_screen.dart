@@ -3,8 +3,9 @@ import 'package:app/models/product_model.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   final Product product;
+  final int index;
 
-  ProductDetailsScreen({required this.product});
+  ProductDetailsScreen({required this.product, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +24,22 @@ class ProductDetailsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Product Image
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12), // Rounded corners for the image
+                child: Image.network(
+                  product.image,
+                  width: (index == 4 ) 
+                      ? 370 
+                      : 500, // Conditionally set width
+                  height: (index == 4 || index == 5 || index == 7) 
+                      ? 640 
+                      : 650, // Conditionally set height
+                  fit: BoxFit.cover, // Ensures the image fills the space proportionally
+                ),
+              ),
+              SizedBox(height: 20),
+
               // Product Title
               Text(
                 product.title,
@@ -88,7 +105,7 @@ class ProductDetailsScreen extends StatelessWidget {
               ),
               SizedBox(height: 20),
 
-              // Add a stylish button at the bottom
+              // Stylish Button at the bottom
               Center(
                 child: ElevatedButton(
                   onPressed: () {

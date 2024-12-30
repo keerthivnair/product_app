@@ -3,75 +3,84 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../models/product_model.dart';
 import '../widgets/product_card.dart';
 import 'product_details_screen.dart';
-import '../blocs/product_cubit.dart'; // Import the ProductCubit
-import 'user_form_screen.dart'; // Import the UserFormScreen
-import 'audio_player_screen.dart'; // Import the AudioPlayerScreen
+import '../blocs/product_cubit.dart';
+import 'user_form_screen.dart';
+import 'audio_player_screen.dart';
 
 class ProductListScreen extends StatelessWidget {
+  final String category; // Accept category dynamically
+  final List<Product> products; // Accept filtered product list dynamically
+
+  ProductListScreen({required this.category, required this.products});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Product List",
+          "$category Products", // Dynamic title
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
-        backgroundColor: Colors.teal, // Sleek and modern color for the app bar
+        backgroundColor: Colors.teal,
         elevation: 4,
       ),
-      body: BlocBuilder<ProductCubit, List<Product>>(
-        builder: (context, products) {
-          if (products.isEmpty) {
-            return Center(child: CircularProgressIndicator()); // Show loading spinner if products are empty
-          }
-
-          return ListView.builder(
-            itemCount: products.length,
-            itemBuilder: (context, index) {
-              final product = products[index];
-              return GestureDetector(
-                onTap: () {
-                  // Navigate to the details screen
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ProductDetailsScreen(product: product),
-                    ),
-                  );
-                },
-                child: ProductCard(product: product), // Use ProductCard widget here
-              );
-            },
-          );
-        },
-      ),
+      body: products.isEmpty
+          ? Center(
+              child: Text(
+                "No products available in this category.",
+                style: TextStyle(fontSize: 18, color: Colors.grey),
+              ),
+            )
+          : ListView.builder(
+              padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
+              itemCount: products.length,
+              itemBuilder: (context, index) {
+                final product = products[index];
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProductDetailsScreen(
+                          product: product,
+                          index: index,
+                        ),
+                      ),
+                    );
+                  },
+                  child: ProductCard(product: product),
+                );
+              },
+            ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          FloatingActionButton(
+          FloatingActionButton.extended(
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => UserFormScreen()), // Navigate to UserFormScreen
+                MaterialPageRoute(builder: (context) => UserFormScreen()),
               );
             },
-            child: Icon(Icons.person_add),
-            backgroundColor: Colors.teal, // Sleek button background color
-            tooltip: "Add User Form",
-            heroTag: "userFormBtn", // Hero tag to avoid duplication
+            icon: Icon(Icons.person_add),
+            label: Text("Add User"),
+            backgroundColor: Colors.teal,
+            tooltip: "Go to User Form",
+            heroTag: "userFormBtn",
           ),
-          SizedBox(height: 16), // Spacing between buttons
-          FloatingActionButton(
+          SizedBox(height: 16),
+          FloatingActionButton.extended(
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => AudioPlayerScreen()), // Navigate to AudioPlayerScreen
+                MaterialPageRoute(builder: (context) => AudioPlayerScreen()),
               );
             },
-            child: Icon(Icons.audiotrack),
-            backgroundColor: Colors.teal, // Sleek button background color
-            tooltip: "Audio Player",
-            heroTag: "audioPlayerBtn", // Hero tag to avoid duplication
+            icon: Icon(Icons.audiotrack),
+            label: Text("Audio"),
+            backgroundColor: Colors.teal,
+            tooltip: "Open Audio Player",
+            heroTag: "audioPlayerBtn",
           ),
         ],
       ),
