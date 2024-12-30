@@ -5,7 +5,7 @@ class FormCubit extends Cubit<Map<String, dynamic>> {
 
   void updateField(String key, dynamic value) {
     final currentState = Map<String, dynamic>.from(state);
-    currentState[key] = value;
+    currentState[key] = value; // Debug log to show updated field
     emit(currentState);
   }
 
