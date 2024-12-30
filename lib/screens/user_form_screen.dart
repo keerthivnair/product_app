@@ -74,7 +74,7 @@ class UserFormScreen extends StatelessWidget {
                 CustomFormField(
                   label: "Gender",
                   isDropdown: true,
-                  dropdownItems: ["Male", "Female", "Other"],
+                  dropdownItems: ["Male", "Female"],
                   onChanged: (value) => context.read<FormCubit>().updateField('gender', value),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
