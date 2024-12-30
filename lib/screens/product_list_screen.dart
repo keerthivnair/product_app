@@ -11,7 +11,14 @@ class ProductListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Product List")),
+      appBar: AppBar(
+        title: Text(
+          "Product List",
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        backgroundColor: Colors.teal, // Sleek and modern color for the app bar
+        elevation: 4,
+      ),
       body: BlocBuilder<ProductCubit, List<Product>>(
         builder: (context, products) {
           if (products.isEmpty) {
@@ -49,6 +56,7 @@ class ProductListScreen extends StatelessWidget {
               );
             },
             child: Icon(Icons.person_add),
+            backgroundColor: Colors.teal, // Sleek button background color
             tooltip: "Add User Form",
             heroTag: "userFormBtn", // Hero tag to avoid duplication
           ),
@@ -61,6 +69,7 @@ class ProductListScreen extends StatelessWidget {
               );
             },
             child: Icon(Icons.audiotrack),
+            backgroundColor: Colors.teal, // Sleek button background color
             tooltip: "Audio Player",
             heroTag: "audioPlayerBtn", // Hero tag to avoid duplication
           ),
